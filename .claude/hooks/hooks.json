@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.(java|kt|kts)$\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const{execSync}=require('child_process');const fs=require('fs');let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const i=JSON.parse(d);const p=i.tool_input?.file_path;if(p&&fs.existsSync(p)){try{execSync('idea format -s \\\"'+process.env.CLAUDE_PROJECT_DIR+'/.editorconfig\\\" \\\"'+p+'\\\"',{stdio:['pipe','pipe','pipe']});console.error('[Hook] Formatted: '+p)}catch(e){console.error('[Hook] Format skipped (idea CLI not available)')}}console.log(d)})\""
+          }
+        ],
+        "description": "Java/Kotlin 파일 수정 후 IntelliJ .editorconfig로 자동 포맷팅"
+      },
+      {
+        "matcher": "tool == \"Write\" && tool_input.file_path matches \"\\\\.(java|kt|kts)$\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const{execSync}=require('child_process');const fs=require('fs');let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const i=JSON.parse(d);const p=i.tool_input?.file_path;if(p&&fs.existsSync(p)){try{execSync('idea format -s \\\"'+process.env.CLAUDE_PROJECT_DIR+'/.editorconfig\\\" \\\"'+p+'\\\"',{stdio:['pipe','pipe','pipe']});console.error('[Hook] Formatted: '+p)}catch(e){console.error('[Hook] Format skipped (idea CLI not available)')}}console.log(d)})\""
+          }
+        ],
+        "description": "Java/Kotlin 파일 생성 후 IntelliJ .editorconfig로 자동 포맷팅"
+      },
+      {
+        "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.(java|kt)$\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const{execSync}=require('child_process');const fs=require('fs');const path=require('path');let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const i=JSON.parse(d);const p=i.tool_input?.file_path;if(p&&fs.existsSync(p)){const className=path.basename(p).replace(/\\.[^.]+$/,'');let dir=process.env.CLAUDE_PROJECT_DIR||path.dirname(p);if(fs.existsSync(path.join(dir,'gradlew'))){try{const r=execSync('./gradlew test --tests \\\"*'+className+'*\\\" --quiet 2>&1',{cwd:dir,encoding:'utf8',timeout:300000});console.error('[Hook] Tests passed for: '+className)}catch(e){const out=e.stdout||e.message||'';if(out.includes('No tests found')){console.error('[Hook] No tests found for: '+className)}else{console.error('[Hook] Test FAILED for: '+className);console.error(out.split('\\n').slice(0,10).join('\\n'))}}}}console.log(d)})\""
+          }
+        ],
+        "description": "Java/Kotlin 파일 수정 후 관련 Gradle 테스트 자동 실행"
+      },
+      {
+        "matcher": "tool == \"Write\" && tool_input.file_path matches \"src/test/.*\\\\.(java|kt)$\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const{execSync}=require('child_process');const fs=require('fs');const path=require('path');let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const i=JSON.parse(d);const p=i.tool_input?.file_path;if(p&&fs.existsSync(p)){const className=path.basename(p).replace(/\\.[^.]+$/,'');let dir=process.env.CLAUDE_PROJECT_DIR||path.dirname(p);if(fs.existsSync(path.join(dir,'gradlew'))){try{const r=execSync('./gradlew test --tests \\\"*'+className+'*\\\" --quiet 2>&1',{cwd:dir,encoding:'utf8',timeout:300000});console.error('[Hook] Tests passed: '+className)}catch(e){const out=e.stdout||e.message||'';console.error('[Hook] Test FAILED: '+className);console.error(out.split('\\n').slice(0,10).join('\\n'))}}}console.log(d)})\""
+          }
+        ],
+        "description": "새 테스트 파일 생성 시 즉시 실행"
+      },
+      {
+        "matcher": "tool == \"Bash\" && tool_input.command matches \"./gradlew (build|assemble)\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const i=JSON.parse(d);const out=i.tool_output?.output||'';if(out.includes('BUILD SUCCESSFUL')){console.error('[Hook] Build successful')}else if(out.includes('BUILD FAILED')){console.error('[Hook] Build failed - check errors above')}console.log(d)})\""
+          }
+        ],
+        "description": "Gradle 빌드 결과 상태 로깅"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "tool == \"Bash\" && tool_input.command matches \"./gradlew clean\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"console.error('[Hook] Running gradle clean - this will remove build cache');console.error('[Hook] Next build may take longer')\""
+          }
+        ],
+        "description": "gradle clean 실행 전 빌드 캐시 삭제 경고"
+      },
+      {
+        "matcher": "tool == \"Bash\" && tool_input.command matches \"git push\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const{execSync}=require('child_process');try{const status=execSync('git status --porcelain',{encoding:'utf8'});if(status.trim()){console.error('[Hook] WARNING: Uncommitted changes exist');console.error(status)}}catch(e){}console.error('[Hook] Proceeding with push...')\""
+          }
+        ],
+        "description": "git push 전 커밋되지 않은 변경사항 확인"
+      }
+    ]
+  }
+}
