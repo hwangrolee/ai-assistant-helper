@@ -30,8 +30,8 @@ Task(subagent_type=\"code-review\", prompt=\"변경된 코드 리뷰\")
 
 ### Step 3-1: 코드 리뷰 이슈를 sub_tasks에 추가
 
-BLOCKED 응답의 이슈들을 work_plan.json의 해당 Task의 sub_tasks에 추가:
-```json
+BLOCKED 응답의 이슈들을 work_plan.json의 해당 Task의 sub_tasks에 JSON 형태로 추가:
+
 {
   \"id\": \"T001-1\",
   \"type\": \"CODE_REVIEW\",
@@ -41,7 +41,7 @@ BLOCKED 응답의 이슈들을 work_plan.json의 해당 Task의 sub_tasks에 추
   \"description\": \"이슈 설명\",
   \"suggested_fix\": \"수정 방법\"
 }
-```
+
 저장 후 다음 iteration (implement가 sub_tasks 처리)
 
 ## Step 4: 보안 리뷰
@@ -53,8 +53,8 @@ Task(subagent_type=\"security-review\", prompt=\"변경된 코드 보안 리뷰\
 
 ### Step 4-1: 보안 이슈를 sub_tasks에 추가
 
-VULNERABLE 응답의 이슈들을 work_plan.json의 해당 Task의 sub_tasks에 추가:
-```json
+VULNERABLE 응답의 이슈들을 work_plan.json의 해당 Task의 sub_tasks에 JSON 형태로 추가:
+
 {
   \"id\": \"T001-2\",
   \"type\": \"SECURITY\",
@@ -64,7 +64,7 @@ VULNERABLE 응답의 이슈들을 work_plan.json의 해당 Task의 sub_tasks에 
   \"description\": \"이슈 설명\",
   \"suggested_fix\": \"수정 방법\"
 }
-```
+
 저장 후 다음 iteration (implement가 sub_tasks 처리)
 
 ## Step 5: 커밋
