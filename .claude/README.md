@@ -1,22 +1,63 @@
-# 클로드 코드 양식
+# Claude Code 설정 가이드
 
-## agents
+이 디렉토리는 Claude Code의 커스텀 설정을 관리합니다.
 
-클로드 코드에서 작업 중인 세션에 엮이지 않고 독립적으로 실행시키기 위해 사용. 현 세션에서 대화한 내용이 agents 에서 실행되는 프롬프트에는 영향이 가지 않고 다른 콘텍스트에서 동작하기 때문에 사용.
+## 디렉토리 구조
 
-agents 는 별도의 task tool 이기 때문에 세션에서 내가 작성한 프롬프트에 따라 알아서 실행될 수 있다.
+```
+.claude/
+├── agents/          # 독립 실행 에이전트 정의
+│   ├── planning.md       # 요구사항 → work_plan.json 생성
+│   ├── implement.md      # 태스크 구현
+│   ├── code-review.md    # 코드 리뷰
+│   ├── security-review.md # 보안 리뷰
+│   ├── git-commit.md     # 커밋 메시지 생성
+│   ├── pr-description.md # PR 설명 생성
+│   └── refactoring-review.md # 리팩토링 검토
+├── hooks/           # 자동 실행 훅
+│   └── hooks.json        # 훅 설정
+├── plugins/         # 플러그인 목록
+│   └── README.md
+├── prompts/         # 재사용 프롬프트
+│   └── ralph-implement-loop.md
+└── skills/          # 직접 실행 커맨드
+    └── define-requirements/
+```
 
-## hooks
+## Agents
 
-코드 수정 후 코드 포메팅, 린트, 테스트 등 훅 기능을 담당.
+현재 세션과 독립적으로 실행되는 에이전트입니다. Task tool을 통해 자동으로 호출됩니다.
 
-## plugins
+| 에이전트 | 설명 |
+|---------|------|
+| `planning` | 요구사항 문서를 분석하여 work_plan.json 생성 |
+| `implement` | work_plan.json의 태스크를 순차적으로 구현 |
+| `code-review` | 코드 리뷰 수행 (수정하지 않음) |
+| `security-review` | 보안 취약점 탐지 (수정하지 않음) |
+| `git-commit` | 변경사항 검토 및 커밋 |
+| `pr-description` | PR 설명 생성 |
+| `refactoring-review` | 리팩토링 필요성 검토 |
 
-내가 사용 중인 플러그인 목록
+## Hooks
 
-## skills
+코드 수정 후 자동으로 실행되는 작업들입니다.
+- 코드 포매팅
+- 린트 검사
+- 테스트 실행
 
-직접 실행시키는 명령어로 사용 가능. 나는 개발 기획 문서를 만들기 위해 사용한다.
+## Plugins
+
+### ralph-loop
+반복 실행을 관리하며 종료 조건을 자동으로 판단합니다.
+- 최대 반복 횟수 설정
+- 완료 조건 감지 시 자동 종료
+
+## Skills
+
+슬래시 커맨드로 직접 실행 가능한 기능들입니다.
+
+- `/define-requirements` - 기획 초안을 상세 요구사항 문서로 확장
+- `/create-spec` - 구현 명세 생성
 
 
 ## 현재 구조에서 1개의 피처를 개발하기 위해 사용하는 루틴
