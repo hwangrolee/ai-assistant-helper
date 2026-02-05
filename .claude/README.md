@@ -16,6 +16,8 @@
 │   └── refactoring-review.md # 리팩토링 검토
 ├── hooks/           # 자동 실행 훅
 │   └── hooks.json        # 훅 설정
+├── mcp/             # MCP 서버 설정 가이드
+│   └── README.md
 ├── plugins/         # 플러그인 목록
 │   └── README.md
 ├── prompts/         # 재사용 프롬프트
@@ -52,12 +54,20 @@
 - 최대 반복 횟수 설정
 - 완료 조건 감지 시 자동 종료
 
+## MCP (Model Context Protocol)
+
+외부 서비스와 연동하기 위한 프로토콜입니다. 프로젝트 루트의 `.mcp.json`에서 설정합니다.
+
+### 현재 사용 중인 서버
+- `github` - GitHub API 연동 (이슈, PR, 저장소 관리)
+
+자세한 내용은 [mcp/README.md](mcp/README.md)를 참조하세요.
+
 ## Skills
 
 슬래시 커맨드로 직접 실행 가능한 기능들입니다.
 
 - `/define-requirements` - 기획 초안을 상세 요구사항 문서로 확장
-- `/create-spec` - 구현 명세 생성
 
 
 ## 현재 구조에서 1개의 피처를 개발하기 위해 사용하는 루틴

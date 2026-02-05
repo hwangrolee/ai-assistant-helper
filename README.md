@@ -1,47 +1,43 @@
 # AI Assistant Helper
 
-Claude Code를 활용한 AI 기반 개발 워크플로우 설정 및 템플릿 저장소입니다.
+AI 기반 개발 도구들의 설정과 워크플로우를 관리하는 저장소입니다.
 
 ## 개요
 
-이 저장소는 Claude Code의 agents, hooks, plugins, skills 등 AI 어시스턴트 관련 설정을 관리합니다. 개발 프로젝트에서 일관된 AI 지원 워크플로우를 구축하기 위한 템플릿과 가이드를 제공합니다.
+다양한 AI 어시스턴트 도구들의 설정 파일, 커스텀 에이전트, 플러그인 등을 관리합니다. 프로젝트 간 일관된 AI 지원 환경을 구축하기 위한 템플릿과 가이드를 제공합니다.
 
 ## 구조
 
 ```
-.claude/
-├── agents/          # 독립 실행 에이전트 정의
-├── hooks/           # 코드 포매팅, 린트, 테스트 훅
-├── plugins/         # 사용 중인 플러그인 목록
-├── prompts/         # 재사용 가능한 프롬프트 템플릿
-└── skills/          # 직접 실행 가능한 커맨드
+.
+├── .claude/         # Claude Code 설정
+├── .mcp.json        # MCP (Model Context Protocol) 설정
+└── README.md
 ```
 
-## 주요 기능
+## 지원 도구
 
-### Agents
-- `planning` - 요구사항 분석 및 work_plan.json 생성
-- `implement` - 태스크 구현 (코드 리뷰, 보안 리뷰 포함)
-- `code-review` - 코드 리뷰 수행
-- `security-review` - 보안 취약점 검토
-- `git-commit` - 커밋 메시지 생성
-- `pr-description` - PR 설명 생성
+### Claude Code
+Anthropic의 CLI 기반 AI 코딩 어시스턴트입니다.
+- 커스텀 에이전트, 훅, 플러그인, 스킬 설정
+- 자세한 내용: [.claude/README.md](.claude/README.md)
 
-### Skills
-- `/define-requirements` - 기획 초안을 상세 요구사항 문서로 확장
-- `/create-spec` - 구현 명세 생성
+### MCP (Model Context Protocol)
+AI 모델과 외부 서비스 간 연동을 위한 프로토콜입니다.
+- 현재 설정: GitHub API 연동
+- 설정 파일: `.mcp.json`
 
-### Plugins
-- `ralph-loop` - 반복 실행 및 자동 종료 조건 관리
+## 사용 방법
 
-## 개발 워크플로우
+이 저장소의 설정 파일들을 자신의 프로젝트에 복사하여 사용합니다.
 
-1. **기획서 초안 작성** - PLAN.md 파일로 저장
-2. **상세 기획서 작성** - `/define-requirements` 스킬 사용
-3. **플랜 정의** - planning 에이전트로 work_plan.json 생성
-4. **구현** - implement 에이전트로 순차적 태스크 구현
+```bash
+# Claude Code 설정 복사
+cp -r .claude/ /path/to/your/project/
 
-자세한 사용법은 [.claude/README.md](.claude/README.md)를 참조하세요.
+# MCP 설정 복사
+cp .mcp.json /path/to/your/project/
+```
 
 ## 라이선스
 
