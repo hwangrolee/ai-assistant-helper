@@ -141,3 +141,9 @@ work_plan.json을 다시 읽고 상태 확인 후 다음 iteration
 모든 Task가 COMPLETED 상태가 되면:
 <promise>ALL_TASKS_COMPLETED</promise>" --completion-promise "ALL_TASKS_COMPLETED" --max-iterations 50
 ```
+
+## Claude MCP 로 GITHUB 관리하기
+
+```sh
+Git Commit 을 위해 변경사항을 분류해서 해당 파일만 Staging -> 브랜치 생성 -> Github Issue 생성 -> 커밋 추가 -> 푸시 -> Githu PR 생성 -> 머지해줘
+```

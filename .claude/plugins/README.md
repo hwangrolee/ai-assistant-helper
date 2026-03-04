@@ -7,3 +7,6 @@
     - https://formulae.brew.sh/formula/ralph-orchestrator
     - https://github.com/mikeyobrien/ralph-orchestrator
     - https://awesomeclaude.ai/ralph-wiggum
+- superpower
+  - /plugin marketplace add obra/superpowers-marketplace
+  - /plugin install superpower@superpowers-marketplace
