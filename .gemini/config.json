@@ -1,0 +1,54 @@
+{
+  "version": "0.35.3",
+  "extensions": [
+    {
+      "name": "Stitch",
+      "version": "0.1.4",
+      "source": "https://github.com/gemini-cli-extensions/stitch",
+      "mcp_servers": ["stitch"]
+    },
+    {
+      "name": "conductor",
+      "version": "0.4.1",
+      "source": "https://github.com/gemini-cli-extensions/conductor"
+    },
+    {
+      "name": "context7",
+      "version": "1.0.0",
+      "source": "https://github.com/upstash/context7",
+      "mcp_servers": ["context7"],
+      "skills": ["find-docs", "context7-mcp", "context7-cli"]
+    },
+    {
+      "name": "github",
+      "version": "1.0.0",
+      "source": "https://github.com/github/github-mcp-server",
+      "mcp_servers": ["github"]
+    },
+    {
+      "name": "monday",
+      "version": "0.0.41",
+      "source": "https://github.com/mondaycom/mcp",
+      "mcp_servers": ["monday"]
+    },
+    {
+      "name": "ralph",
+      "version": "1.0.1",
+      "source": "https://github.com/gemini-cli-extensions/ralph"
+    },
+    {
+      "name": "supabase",
+      "version": "0.1.1",
+      "source": "https://github.com/supabase-community/gemini-extension",
+      "mcp_servers": ["supabase"],
+      "skills": ["supabase-postgres-best-practices"]
+    }
+  ],
+  "mcp_servers": {
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    }
+  }
+}
