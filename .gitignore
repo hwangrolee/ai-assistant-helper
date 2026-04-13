@@ -1,2 +1,21 @@
+# OS files
 .DS_Store
 **/.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local/Sensitive configuration (Claude/AI specific)
+*.local.json
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
